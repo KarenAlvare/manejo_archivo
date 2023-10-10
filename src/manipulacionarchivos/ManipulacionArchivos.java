@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 
 public class ManipulacionArchivos {
     
-    
     public static int countFileLines(String name){
         File archivo; //apunta a un archivo fisico del dd
         FileReader reader; //llave con permiso de solo lectura
@@ -65,12 +64,41 @@ public class ManipulacionArchivos {
         }
         return array;
     }
+    
+    public static int[] fileToInArray(String name) throws IOException{
+        File archivo; //apunta a un archivo fisico del dd
+        FileReader reader; //llave con permiso de solo lectura
+        BufferedReader bufer; //recuperar info. del archivo
+        String linea;
+        int[] array = null;
+        int t;
+        int i = 0;
+        
+        try{
+            
+            t = countFileLines(name);
+            array = new int[t];
+            archivo = new File("C:\\Archivos\\" + name + ".txt");
+            reader = new FileReader(archivo);
+            //configurar el  para leer datos del archivo
+            bufer = new BufferedReader(reader);
+            while((linea = bufer.readLine())!= null ){
+                array[i] = Integer.parseInt(linea);
+                i++;
+        }
+            reader.close();
+        } catch( Exception e ){
+            System.out.println("Error al leer el archivo: "+ e.toString());
+        }
+        return array;
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
         
         String fileName;
         String[] mascotass;
+        int[] numeros;
         
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo: ");
@@ -79,5 +107,15 @@ public class ManipulacionArchivos {
         System.out.println("Contenido del arreglo de mascotas: ");
         for (String unaMascota : mascotass ){
             System.out.println(unaMascota);
+        }
+        
+        System.out.println("");
+        System.out.println("Lectura de datos numericos");
+        System.out.println("Escribe el nombre del archivo: ");
+        fileName = bufer.readLine();
+        numeros = fileToInArray(fileName);
+        System.out.println("Contenido del arreglo de numeros");
+        for ( int unNumber : numeros ){
+            System.out.println(unNumber);
         }
 }}
