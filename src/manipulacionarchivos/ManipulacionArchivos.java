@@ -3,13 +3,15 @@ package manipulacionarchivos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 
 public class ManipulacionArchivos {
     
-    public static int countFileLines(String name){
+     public static int countFileLines(String name){
         File archivo; //apunta a un archivo fisico del dd
         FileReader reader; //llave con permiso de solo lectura
         BufferedReader bufer; //recuperar info. del archivo
@@ -78,7 +80,7 @@ public class ManipulacionArchivos {
             
             t = countFileLines(name);
             array = new int[t];
-            archivo = new File("C:\\Archivos\\" + name + ".txt");
+            archivo = new File("C:\\archivos\\" + name + ".txt");
             reader = new FileReader(archivo);
             //configurar el  para leer datos del archivo
             bufer = new BufferedReader(reader);
@@ -91,6 +93,34 @@ public class ManipulacionArchivos {
             System.out.println("Error al leer el archivo: "+ e.toString());
         }
         return array;
+    }
+    
+    public static void writerFile(String name){
+        FileWriter archivo; //apuntador a espacio fisico de DD
+        //llave de acceso para escribir archivo
+        PrintWriter writer;
+        //para escibir de teclado a dd
+        BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
+        String entrada = null;
+        char respuesta;
+        
+        try{
+            //apuntador al archivo por crear
+            archivo = new FileWriter("C:\\archivos\\" + name + ".txt");
+            //abrir el archivo en modo escritura
+            writer = new PrintWriter(archivo);
+            do {
+                System.out.println("Escribe datos para guardar al archivo: ");
+                //guardar lo recuperado desde teclado al archivo
+                writer.println(entrada);
+                System.out.println("Escribe x para salir, cualquier otra tecla para continuar");
+                entrada = bufer.readLine();
+                respuesta = entrada.charAt(0);
+            }while( respuesta != 'x' );
+            archivo.close();
+        } catch( Exception e ){
+            System.out.println("Error al escribir el archivo " + e.toString());
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -118,4 +148,10 @@ public class ManipulacionArchivos {
         for ( int unNumber : numeros ){
             System.out.println(unNumber);
         }
+        
+        System.out.println("");
+        System.out.println("Crear un archivo de texto");
+        System.out.println("Escribe el nombre del archivo: ");
+        fileName = bufer.readLine();
+        writerFile(fileName);
 }}
