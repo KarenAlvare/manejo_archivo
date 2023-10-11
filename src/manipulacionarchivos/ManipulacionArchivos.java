@@ -95,7 +95,7 @@ public class ManipulacionArchivos {
         return array;
     }
     
-    public static void writerFile(String name){
+    public static void writerkeyboarFile(String name){
         FileWriter archivo; //apuntador a espacio fisico de DD
         //llave de acceso para escribir archivo
         PrintWriter writer;
@@ -122,6 +122,27 @@ public class ManipulacionArchivos {
             System.out.println("Error al escribir el archivo " + e.toString());
         }
     }
+    
+    //crear un archivo con inte de un arreglo
+    public static void writerArrayToFile(String name, int[] array) {
+        
+        FileWriter archivo;        
+        PrintWriter writer;
+        
+        
+        try{
+            archivo = new FileWriter("C:\\archivos\\" + name + ".txt");
+            writer = new PrintWriter(archivo);
+            
+            //guardar el arreglo a un archivo
+            for ( int unDato : array ){
+            writer.println(unDato);
+        }
+            archivo.close();
+        } catch( Exception e ){
+            System.out.println("Error al escribir el archivo " + e.toString());
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
@@ -129,6 +150,7 @@ public class ManipulacionArchivos {
         String fileName;
         String[] mascotass;
         int[] numeros;
+        int[] numerosX3;
         
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo: ");
@@ -149,9 +171,22 @@ public class ManipulacionArchivos {
             System.out.println(unNumber);
         }
         
-        System.out.println("");
+        //creear y llenar array numerosX3
+        System.out.println("Numeros por 3");
+        numerosX3 = new int [numeros.length];
+        for ( int i = 0; i < numeros.length; i++ ){
+            numerosX3[i] = numeros[i] * 3;
+            System.out.println("numeros3[" + i +"]: "+ numerosX3[i]);
+        }
+        
+        System.out.println("Escribe el nombre del archivo numerosX3: ");
+        fileName = bufer.readLine();
+        writerArrayToFile(fileName, numerosX3);
+        
+        /*System.out.println("");
         System.out.println("Crear un archivo de texto");
         System.out.println("Escribe el nombre del archivo: ");
         fileName = bufer.readLine();
         writerFile(fileName);
+        */
 }}
